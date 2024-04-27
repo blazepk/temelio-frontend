@@ -5,19 +5,16 @@ import AddNonProfit from "./pages/AddNonProfit";
 import DonateNonProfit from "./pages/DonateNonProfit";
 import NonProfitsList from "./pages/NonProfitsList";
 import Login from "./pages/Login";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { LoginContext } from "./contexts/loginContext";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    if (localStorage.getItem("loggedIn") === "true") {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
+  const { isLoggedIn } = useContext(LoginContext);
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Routes>
         <Route
           path="/"

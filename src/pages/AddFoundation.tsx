@@ -2,12 +2,13 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { fetcher } from "../utils/fetcher";
+import { toast } from "react-toastify";
 
 function AddFoundation() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const onSubmit = async (data: any) => {
     console.log("data", data);
-    await fetcher({
+    const resData = await fetcher({
       endpoint: "foundation/add",
       method: "POST",
       data: {
@@ -15,6 +16,13 @@ function AddFoundation() {
         password: data.password,
       },
     });
+    console.log("res Data", resData);
+    if (!resData.success) {
+      toast.error("Some error occured. Kindly contact adminstrator");
+    } else {
+      toast.success(resData.message);
+      reset();
+    }
   };
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

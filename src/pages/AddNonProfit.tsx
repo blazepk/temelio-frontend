@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { fetcher } from "../utils/fetcher";
+import { toast } from "react-toastify";
 
 function AddNonProfit() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const onSubmit = async (data: any) => {
     console.log("data", data);
-    await fetcher({
-      endpoint: "non-profit/add",
+    const resData = await fetcher({
+      endpoint: "non-profits/add",
       method: "POST",
       data: {
         email: data.email,
@@ -15,6 +16,12 @@ function AddNonProfit() {
         name: data.name,
       },
     });
+    if (!resData.success) {
+      toast.error("Some error occured in creating non profit");
+    } else {
+      toast.success(resData.message);
+      reset();
+    }
   };
   return (
     <form className="max-w-sm mx-auto" onSubmit={handleSubmit(onSubmit)}>
@@ -64,7 +71,7 @@ function AddNonProfit() {
           {...register("name")}
         />
       </div>
-      <div className="flex items-start mb-5">
+      {/* <div className="flex items-start mb-5">
         <div className="flex items-center h-5">
           <input
             id="terms"
@@ -86,7 +93,7 @@ function AddNonProfit() {
             terms and conditions
           </a>
         </label>
-      </div>
+      </div> */}
       <button
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

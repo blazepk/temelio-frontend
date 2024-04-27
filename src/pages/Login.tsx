@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetcher } from "../utils/fetcher";
+import { toast } from "react-toastify";
+import { useContext } from "react";
+import { LoginContext } from "../contexts/loginContext";
 
 function Login() {
+  const { login } = useContext(LoginContext);
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log("data", data);
-    await fetcher({
+    // console.log("data", data);
+    const resData = await fetcher({
       endpoint: "foundation/login",
       method: "POST",
       data: {
@@ -15,6 +20,13 @@ function Login() {
         password: data.password,
       },
     });
+    if (!resData.success) {
+      toast.error(resData.message);
+    } else {
+      toast.success(resData.message);
+      login();
+      navigate("/dashboard/add-nonprofit");
+    }
   };
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
