@@ -11,7 +11,7 @@ type ContextProps = {
 };
 
 const LoginProvider = ({ children }: ContextProps) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   useEffect(() => {
     if (isLoggedIn) {
       localStorage.setItem("loggedIn", "true");

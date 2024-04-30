@@ -9,6 +9,8 @@ import { useContext } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LoginContext } from "./contexts/loginContext";
+import EmailSent from "./pages/EmailSent";
+import ShowEmail from "./pages/ShowEmail";
 
 function App() {
   const { isLoggedIn } = useContext(LoginContext);
@@ -37,6 +39,8 @@ function App() {
           <Route path="add-nonprofit" element={<AddNonProfit />} />
           <Route path="donate-to-nonprofit" element={<DonateNonProfit />} />
           <Route path="list-nonprofits" element={<NonProfitsList />} />
+          <Route path="sent-emails" element={<EmailSent />} />
+          <Route path="show-email/:id" element={<ShowEmail />} />
         </Route>
       </Routes>
     </BrowserRouter>
